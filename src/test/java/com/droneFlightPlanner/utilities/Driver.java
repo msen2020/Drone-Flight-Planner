@@ -26,7 +26,7 @@ public class Driver {
     Making our 'driver' instance private so that it is not reachable from outside the class.
     We make it static, because we want it to run before everything else, and also we will use it in a static method
      */
-    private static ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driverPool = new ThreadLocal<>();
 
     /*
     Creating re-usable utility method that will return same 'driver' instance everytime we call it.
@@ -41,7 +41,7 @@ public class Driver {
             isHeadless = true;
 
 
-        HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+        HashMap<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("download.default_directory", System.getProperty("user.dir") + "\\target");
 
 
