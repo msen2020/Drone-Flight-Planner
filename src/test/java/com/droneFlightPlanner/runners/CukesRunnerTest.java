@@ -1,4 +1,4 @@
-package com.droneFlightPlanner.runnerss;
+package com.droneFlightPlanner.runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
