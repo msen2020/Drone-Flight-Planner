@@ -33,21 +33,18 @@ public class Driver {
      */
     public static WebDriver getDriver() {
 
-        //********* For UI test. Make it False to see the browser *****************************************
-//        isHeadless = false;
-
         // *** For Jenkins. Do not change*****
         if (!System.getProperty("os.name").contains("Windows") && !System.getProperty("os.name").contains("Mac"))
             isHeadless = true;
 
 
-        HashMap<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("download.default_directory", System.getProperty("user.dir") + "\\target");
+        HashMap<String, Object> chromePreferences = new HashMap<>();
+        chromePreferences.put("download.default_directory", System.getProperty("user.dir") + "\\target");
 
 
         //setting various capabilities for browsers
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("prefs", chromePrefs);
+        chromeOptions.setExperimentalOption("prefs", chromePreferences);
         chromeOptions.addArguments("use-fake-ui-for-media-stream");
         chromeOptions.addArguments("--window-size=1920,1080");
         chromeOptions.addArguments("--disable-gpu");
@@ -84,33 +81,28 @@ public class Driver {
             to open specific type of browser/driver             */
                 switch (browserType) {
                     case "firefox":
-//                       WebDriverManager.firefoxdriver().setup();
                         driverPool.set(new FirefoxDriver(firefoxOptions));
                         break;
 
                     case "ie":
                         if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                             throw new WebDriverException("Your OS doesn't support Internet Explorer");
-//                        WebDriverManager.iedriver().setup();
                         driverPool.set(new InternetExplorerDriver());
                         break;
 
                     case "edge":
                         if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                             throw new WebDriverException("Your OS doesn't support Edge");
-//                        WebDriverManager.edgedriver().setup();
                         driverPool.set(new EdgeDriver());
                         break;
 
                     case "safari":
                         if (!System.getProperty("os.name").toLowerCase().contains("mac"))
                             throw new WebDriverException("Your OS doesn't support Safari");
-//                        WebDriverManager.getInstance(SafariDriver.class).setup();
                         driverPool.set(new SafariDriver());
                         break;
 
                     case "chrome":
-//                        WebDriverManager.chromedriver().setup();
                         driverPool.set(new ChromeDriver(chromeOptions));
                         break;
                 }

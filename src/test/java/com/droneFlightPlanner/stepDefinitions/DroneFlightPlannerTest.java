@@ -81,38 +81,20 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @And("the user clicks a point on the map")
     public void theUserClicksAPointOnTheMap() {
-        BrowserUtils.wait(5);
         BrowserUtils.waitForPageToLoad(15);
-        WebElement map = driver.findElement(By.className("dfp-editor-leaflet"));
+        WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
         // Get map dimensions
         int mapWidth = map.getSize().getWidth();
         int mapHeight = map.getSize().getHeight();
 
-        // Define coordinates for a square
-        int topLeftX = mapWidth / 4;
-        int topLeftY = mapHeight / 4;
-        int topRightX = 3 * mapWidth / 4;
-        int topRightY = mapHeight / 4;
-        int bottomLeftX = mapWidth / 4;
-        int bottomLeftY = 3 * mapHeight / 4;
-        int bottomRightX = 3 * mapWidth / 4;
-        int bottomRightY = 3 * mapHeight / 4;
+        // Set sample coordinates to click map dimensions
+        int endX = mapWidth / 6;
+        int endY = mapHeight / 3;
 
-        // Creating click gestures to form a square
-        try {
-            actions.moveToElement(map, topLeftX, topLeftY).click().perform();
-            wait(3);
-            actions.moveToElement(map, topRightX, topRightY).click().perform();
-            wait(3);
-            actions.moveToElement(map, bottomRightX, bottomRightY).click().perform();
-            wait(3);
-            actions.moveToElement(map, bottomLeftX, bottomLeftY).click().perform();
-            wait(3);
-            actions.moveToElement(map, topLeftX, topLeftY).click().perform(); // Closing the square
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Creating click gestures
+        actions.moveToElement(map, endX, endY).click()
+                .release().perform();
     }
 
     @Then("the user verifies that the text Good! your Flight Plan has been created. You can now add more checkpoints. is visible")
@@ -151,56 +133,24 @@ public class DroneFlightPlannerTest extends CommonPage {
         int endY = mapHeight / 3;
 
         // Creating click gestures
-        actions
-                .moveToElement(map, endX, endY).click()
+        actions.moveToElement(map, endX, endY).click()
                 .release().perform();
-//        BrowserUtils.wait(3);
-        actions.moveToElement(map, endX, endY-100).click()
-                .release().perform();
-//        BrowserUtils.wait(3);
 
+//        Second click
+        actions.moveToElement(map, endX, endY - 100).click()
+                .release().perform();
+//        third click
         actions.moveToElement(map, endX-100, endY-100).click()
                 .release().perform();
-//        BrowserUtils.wait(3);
 
+//        fourth click
         actions.moveToElement(map, endX-100, endY).click()
                 .release().perform();
 
+//        fifth click
         actions.moveToElement(map, endX-10, endY).click()
                 .release().perform();
     }
-
-
-    @And("the user clicks points creates a Square on the map")
-    public void theUserClicksPointsCreatesASquareOnTheMap() {
-        BrowserUtils.wait(5);
-        BrowserUtils.waitForPageToLoad(15);
-        WebElement map = driver.findElement(By.className("dfp-editor-leaflet"));
-
-        // Get map dimensions
-        int mapWidth = map.getSize().getWidth();
-        int mapHeight = map.getSize().getHeight();
-
-        // Define coordinates for a square
-        int topLeftX = mapWidth / 4;
-        int topLeftY = mapHeight / 4;
-        int topRightX = 3 * mapWidth / 4;
-        int topRightY = mapHeight / 4;
-        int bottomLeftX = mapWidth / 4;
-        int bottomLeftY = 3 * mapHeight / 4;
-        int bottomRightX = 3 * mapWidth / 4;
-        int bottomRightY = 3 * mapHeight / 4;
-
-        // Creating click gestures to form a square
-        try {
-            actions.moveToElement(map, topLeftX, topLeftY).click().moveToElement(map, topRightX, topRightY).click()
-                    .moveToElement(map, bottomRightX, bottomRightY).click().moveToElement(map, bottomLeftX, bottomLeftY)
-                    .click().moveToElement(map, topLeftX, topLeftY).click().build().perform();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Test
     public void name() {

@@ -39,7 +39,6 @@ Feature: Verify the map viewer loads correctly.
     Scenario: TC_03 User clicks multiple points on the map
       And the user clicks on the Plus Icon to set the initial point
       And the user clicks multiple points on the map
-#    And the user clicks points creates a Square on the map
 # 3. Click on additional locations on the map to add more points.
 # 4. Save the flight plan by clicking the "Save" button.
 # 5. Name the flight plan and confirm.
