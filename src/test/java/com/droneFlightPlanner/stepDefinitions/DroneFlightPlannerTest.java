@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.droneFlightPlanner.stepDefinitions.Hooks.actions;
-import static com.droneFlightPlanner.stepDefinitions.Hooks.driver;
+import static com.droneFlightPlanner.stepDefinitions.Hooks.*;
 
 
 public class DroneFlightPlannerTest extends CommonPage {
@@ -108,10 +107,32 @@ public class DroneFlightPlannerTest extends CommonPage {
         BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan);
     }
 
-    @And("the user the Flight Description")
-    public void theUserTheFlightDescription() {
+    @Then("the user verifies that created first flight point number appears on the flight plan")
+    public void theUserVerifiesThatCreatedFirstFlightPointNumberAppearsOnTheFlightPlan() {
+        WebElement flightPointElement = mainPage().firstCreatedFlightPoint;
+        // Ensure the element is displayed
+        BrowserUtils.verifyElementDisplayed(flightPointElement);
+
+        // Fetch the text content of the element
+        String flightPointText = flightPointElement.getText();
+
+        // Extract the number from the text
+        String expectedNumber = "1";
+
+        // Verify the extracted number is "1"
+        Assert.assertTrue("Expected number '1' is not displayed in the flight point element.", flightPointText.contains(expectedNumber));
+
+    }
+
+    @And("the user inputs a Flight Description")
+    public void theUserInputsAFlightDescription() {
         mainPage().flightDescriptionBox.click();
-        mainPage().flightDescriptionBox.sendKeys("Flight");
+        mainPage().flightDescriptionBox.sendKeys("My Flight Plan " + randomNum);
+    }
+
+    @Then("the user verifies that the Flight Description is displayed")
+    public void theUserVerifiesThatTheFlightDescriptionIsDisplayed() {
+        BrowserUtils.verifyElementDisplayed(mainPage().flightDescriptionText);
     }
 
     @And("the user clicks on the created Flight Plan")
@@ -140,15 +161,15 @@ public class DroneFlightPlannerTest extends CommonPage {
         actions.moveToElement(map, endX, endY - 100).click()
                 .release().perform();
 //        third click
-        actions.moveToElement(map, endX-100, endY-100).click()
+        actions.moveToElement(map, endX - 100, endY - 100).click()
                 .release().perform();
 
 //        fourth click
-        actions.moveToElement(map, endX-100, endY).click()
+        actions.moveToElement(map, endX - 100, endY).click()
                 .release().perform();
 
 //        fifth click
-        actions.moveToElement(map, endX-10, endY).click()
+        actions.moveToElement(map, endX - 10, endY).click()
                 .release().perform();
     }
 
@@ -176,6 +197,50 @@ public class DroneFlightPlannerTest extends CommonPage {
         map.put("y", y);
         return map;
     }
+
+    @And("the user clicks to another point on the map")
+    public void theUserClicksToAnotherPointOnTheMap() {
+        BrowserUtils.waitForPageToLoad(15);
+        WebElement map = driver.findElement(By.tagName("dfp-editor"));
+
+        // Get map dimensions
+        int mapWidth = map.getSize().getWidth();
+        int mapHeight = map.getSize().getHeight();
+
+        // Set sample coordinates to click map dimensions
+        int endX = mapWidth / 6;
+        int endY = mapHeight / 3;
+
+        // Creating click gestures
+        actions.moveToElement(map, endX, endY).click()
+                .release().perform();
+        //        Second click
+        actions.moveToElement(map, endX, endY - 100).click()
+                .release().perform();
+    }
+
+    @Then("the user verifies that the text Your data are saved along the way, no need to worry... is visible")
+    public void theUserVerifiesThatTheTextYourDataAreSavedAlongTheWayNoNeedToWorryIsVisible() {
+        BrowserUtils.waitForVisibility(mainPage().yourDataSavedText);
+        BrowserUtils.verifyElementDisplayed(mainPage().yourDataSavedText);
+    }
+
+    @Then("the user verifies that created second flight point number appears on the flight plan")
+    public void theUserVerifiesThatCreatedSecondFlightPointNumberAppearsOnTheFlightPlan() {
+        WebElement flightPointElement = mainPage().secondCreatedFlightPoint;
+        // Ensure the element is displayed
+        BrowserUtils.verifyElementDisplayed(flightPointElement);
+
+        // Fetch the text content of the element
+        String flightPointText = flightPointElement.getText();
+
+        // Extract the number from the text
+        String expectedNumber = "2";
+
+        // Verify the extracted number is "2"
+        Assert.assertTrue("Expected number '2' is not displayed in the flight point element.", flightPointText.contains(expectedNumber));
+    }
+
 
     static class FindCoordinate {
         private final int x;
