@@ -5,6 +5,8 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+import static com.droneFlightPlanner.stepDefinitions.Hooks.driver;
+
 public class MainPage extends CommonPage {
 
     @FindBy(xpath = "//button[@class= 'md-icon-button md-button md-ink-ripple']")
@@ -42,5 +44,12 @@ public class MainPage extends CommonPage {
 
     @FindBy(xpath = "//button[@class= 'md-no-style md-button md-ink-ripple']")
     public List<WebElement> secondCreatedFlightPlan;
+
+    @FindBy(css = "md-list-item.dfp-item")
+    public List<WebElement> flightPlans;
+
+    @FindBy(css = ".leaflet-marker-icon")
+    public List<WebElement> points;
+
 
 }

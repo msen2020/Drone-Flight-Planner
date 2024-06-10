@@ -55,8 +55,9 @@ Feature: Verify the map viewer loads correctly.
     And the user inputs a Flight Description
     Then the user verifies that the Flight Description is displayed
     And the user clicks on the created Flight Plan
+    Then the user verifies that the given coordinates are displayed on the map
 
-  Scenario: TC_04 User adds multiple Flight Plans
+  Scenario: TC_05 User adds multiple Flight Plans
     And the user clicks on the Plus Icon to set the initial point
     And the user clicks multiple points on the map
     And the user inputs a Flight Description
@@ -69,7 +70,7 @@ Feature: Verify the map viewer loads correctly.
     And the user clicks on the created second Flight Plan
     Then  the user verifies that there are multiple Created Flight Plan displayed
 
-  Scenario: TC_05 User Switches between flight plans & Reload the page
+  Scenario: TC_06 User Switches between flight plans & Reload the page
     And the user clicks on the Plus Icon to set the initial point
     And the user clicks multiple points on the map
     And the user inputs a Flight Description

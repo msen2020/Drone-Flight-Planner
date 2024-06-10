@@ -69,6 +69,7 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @And("the user clicks on the Plus Icon to set the initial point")
     public void theUserClicksOnThePlusIconToSetTheInitialPoint() {
+        BrowserUtils.wait(3);
         BrowserUtils.waitForPageToLoad(15);
         BrowserUtils.wait(3);
         mainPage().plusIcon.click();
@@ -158,52 +159,26 @@ public class DroneFlightPlannerTest extends CommonPage {
         // Set sample coordinates to click map dimensions
         int endX = mapWidth / 6;
         int endY = mapHeight / 3;
+        System.out.println("Sample Coordinates: " + endX + ", " + endY);
 
         // Creating click gestures
-        actions.moveToElement(map, endX, endY).click()
-                .release().perform();
-
-//        Second click
-        actions.moveToElement(map, endX, endY - 100).click()
-                .release().perform();
-//        third click
-        actions.moveToElement(map, endX - 100, endY - 100).click()
-                .release().perform();
-
-//        fourth click
-        actions.moveToElement(map, endX - 100, endY).click()
-                .release().perform();
-
-//        fifth click
-        actions.moveToElement(map, endX - 10, endY).click()
-                .release().perform();
+//        actions.moveToElement(map, endX, endY).click().build().perform();
+//        actions     .moveToElement(map, endX, endY - 100).click().build().perform();
+//        actions     .moveToElement(map, endX - 100, endY - 100).click().build().perform();
+//        actions     .moveToElement(map, endX - 100, endY).click().build().perform();
+//        actions     .moveToElement(map, endX - 10, endY).click()
+//                .build().perform();
+        moveToElement(endX,endY);
+        moveToElement(endX,endY-100);
+        moveToElement(endX-100,endY-100);
+        moveToElement(endX-100,endY);
+        moveToElement(endX-10,endY);
     }
+private void moveToElement(int endX ,int endY){
+    WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
-    @Test
-    public void name() {
-        String str = "{_add={}, _divideBy={}, _floor={}, _multiplyBy={}, _round={}, _subtract={}, add={}, clone={}, contains={}, distanceTo={}, divideBy={}, equals={}, floor={}, multiplyBy={}, round={}, subtract={}, toString={}, x=1056, y=690}";
-
-        // way 1
-        BrowserUtils.FindCoordinate findCoordinate = new BrowserUtils.FindCoordinate(str);
-        System.out.println("findCoordinate.getX() = " + findCoordinate.getX());
-        System.out.println("findCoordinate.getY() = " + findCoordinate.getY());
-
-        // way 2
-        Map<String, Integer> coordinate = getCoordinate(str);
-        System.out.println("coordinate.get(\"x\") = " + coordinate.get("x"));
-        System.out.println("coordinate.get(\"y\") = " + coordinate.get("y"));
-
-    }
-
-    Map<String, Integer> getCoordinate(String str) {
-        Map<String, Integer> map = new HashMap<>();
-        int x = Integer.parseInt(str.split(" x=")[1].split(",")[0]);
-        int y = Integer.parseInt(str.split(" y=")[1].split("}")[0]);
-        map.put("x", x);
-        map.put("y", y);
-        return map;
-    }
-
+    actions.moveToElement(map, endX, endY).click().build().perform();
+}
     @And("the user clicks to another point on the map")
     public void theUserClicksToAnotherPointOnTheMap() {
         BrowserUtils.waitForPageToLoad(15);
@@ -219,10 +194,8 @@ public class DroneFlightPlannerTest extends CommonPage {
 
         // Creating click gestures
         actions.moveToElement(map, endX, endY).click()
-                .release().perform();
-        //        Second click
-        actions.moveToElement(map, endX, endY - 100).click()
-                .release().perform();
+                .moveToElement(map, endX, endY - 100).click()
+                .perform();
     }
 
     @Then("the user verifies that the text Your data are saved along the way, no need to worry... is visible")
@@ -234,7 +207,7 @@ public class DroneFlightPlannerTest extends CommonPage {
     @Then("the user verifies that created second flight point number appears on the flight plan")
     public void theUserVerifiesThatCreatedSecondFlightPointNumberAppearsOnTheFlightPlan() {
         WebElement flightPointElement = mainPage().secondCreatedFlightPoint;
-        // Ensure the element is displayed
+        // Verify the element is displayed
         BrowserUtils.verifyElementDisplayed(flightPointElement);
 
         // Fetch the text content of the element
@@ -262,19 +235,11 @@ public class DroneFlightPlannerTest extends CommonPage {
 
         // Creating click gestures
         actions.moveToElement(map, endX, endY).click()
-                .release().perform();
-
-        actions.moveToElement(map, 120, endY - 150).click()
-                .release().perform();
-
-        actions.moveToElement(map, endX - 150, endY - 150).click()
-                .release().perform();
-
-        actions.moveToElement(map, endX - 150, endY).click()
-                .release().perform();
-
-        actions.moveToElement(map, endX - 10, endY).click()
-                .release().perform();
+                .moveToElement(map, 120, endY - 150).click()
+                .moveToElement(map, endX - 150, endY - 150).click()
+                .moveToElement(map, endX - 150, endY).click()
+                .moveToElement(map, endX - 10, endY).click()
+                .perform();
     }
 
     @And("the user clicks on the created second Flight Plan")
@@ -294,15 +259,14 @@ public class DroneFlightPlannerTest extends CommonPage {
     @Then("the user verifies that there are multiple Created Flight Plan displayed")
     public void theUserVerifiesThatThereAreMultipleCreatedFlightPlanDisplayed() {
         // Locate all flight plan elements
-        List<WebElement> flightPlans = driver.findElements(By.cssSelector("md-list-item.dfp-item"));
 
         BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(0));
         BrowserUtils.verifyElementDisplayed(mainPage().secondCreatedFlightPlan.get(1));
 
         // Verify that there are multiple flight plans
-        if (flightPlans.size() > 1) {
+        if (mainPage().flightPlans.size() > 1) {
             System.out.println("Multiple flight plans are displayed.");
-        } else if (flightPlans.size() == 1) {
+        } else if (mainPage().flightPlans.size() == 1) {
             System.out.println("Only one flight plan is displayed.");
         } else {
             System.out.println("No flight plans are displayed.");
@@ -318,6 +282,55 @@ public class DroneFlightPlannerTest extends CommonPage {
     @And("the user reloads the page")
     public void theUserReloadsThePage() {
         driver.navigate().refresh();
+    }
+
+    @Test
+    public void name() {
+        String str = "{_add={}, _divideBy={}, _floor={}, _multiplyBy={}, _round={}, _subtract={}, add={}, clone={}, contains={}, distanceTo={}, divideBy={}, equals={}, floor={}, multiplyBy={}, round={}, subtract={}, toString={}, x=1056, y=690}";
+
+        // way 1
+        BrowserUtils.FindCoordinate findCoordinate = new BrowserUtils.FindCoordinate(str);
+        System.out.println("findCoordinate.getX() = " + findCoordinate.getX());
+        System.out.println("findCoordinate.getY() = " + findCoordinate.getY());
+    }
+
+    Map<String, Integer> getCoordinate(WebElement element) {
+        String str = element.getDomProperty("_leaflet_pos");
+        Map<String, Integer> map = new HashMap<>();
+        int x = Integer.parseInt(str.split(" x=")[1].split(",")[0]);
+        int y = Integer.parseInt(str.split(" y=")[1].split("}")[0]);
+        map.put("x", x);
+        map.put("y", y);
+        return map;
+    }
+
+    @Then("the user verifies that the given coordinates are displayed on the map")
+    public void theUserVerifiesThatTheGivenCoordinatesAreDisplayedOnTheMap() {
+//        String leafletPos = mainPage().points.get(0).getDomProperty("_leaflet_pos");
+        Map<String, Integer> coordinate0 = getCoordinate(mainPage().points.get(0));
+        int x0 = coordinate0.get("x");
+        int y0 = coordinate0.get("y");
+        System.out.println("coordinate0: " + x0 + ", " + y0);
+        // second point
+        Map<String, Integer> coordinate1 = getCoordinate(mainPage().points.get(1));
+        int x1 = coordinate1.get("x");
+        int y1 = coordinate1.get("y");
+        System.out.println("coordinate1: " + x1 + ", " + y1);
+
+        // third point
+        Map<String, Integer> coordinate2 = getCoordinate(mainPage().points.get(2));
+        int x2 = coordinate2.get("x");
+        int y2 = coordinate2.get("y");
+        System.out.println("coordinate2: " + x2 + ", " + y2);
+        // fourth point
+        Map<String, Integer> coordinate3 = getCoordinate(mainPage().points.get(3));
+        int x3 = coordinate3.get("x");
+        int y3 = coordinate3.get("y");
+        System.out.println("coordinate3: " + x3 + ", " + y3);
+        Assert.assertEquals(x0,x1);
+        Assert.assertEquals(y0,y1+100);
+        Assert.assertEquals(x1,x2+100);
+        Assert.assertEquals(y2,y3-100);
     }
 }
 
