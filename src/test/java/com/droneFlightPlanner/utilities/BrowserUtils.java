@@ -10,14 +10,14 @@ import java.time.Duration;
 
 public class BrowserUtils {
 
-    public static WebElement waitForVisibility(WebElement element) {
+    public static void waitForVisibility(WebElement element) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(30));
-        return wait.until(ExpectedConditions.visibilityOf(element));
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static WebElement waitForClickability(WebElement element) {
+    public static void waitForClickability(WebElement element) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
-        return wait.until(ExpectedConditions.elementToBeClickable(element));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public static void waitForPageToLoad(long timeOutInSeconds) {
@@ -42,15 +42,6 @@ public class BrowserUtils {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             Assert.fail("Element not found: " + element);
-        }
-    }
-
-    public static void verifyElementEnabled(WebElement element) {
-        try {
-            Assert.assertTrue("Element is not enabled: " + element, element.isEnabled());
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            Assert.fail("Element is not found: " + element);
         }
     }
 

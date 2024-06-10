@@ -297,7 +297,7 @@ public class DroneFlightPlannerTest extends CommonPage {
         List<WebElement> flightPlans = driver.findElements(By.cssSelector("md-list-item.dfp-item"));
 
         BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(0));
-        BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(1));
+        BrowserUtils.verifyElementDisplayed(mainPage().secondCreatedFlightPlan.get(1));
 
         // Verify that there are multiple flight plans
         if (flightPlans.size() > 1) {

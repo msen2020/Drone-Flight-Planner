@@ -43,5 +43,4 @@ public class MainPage extends CommonPage {
     @FindBy(xpath = "//button[@class= 'md-no-style md-button md-ink-ripple']")
     public List<WebElement> secondCreatedFlightPlan;
 
-
 }
