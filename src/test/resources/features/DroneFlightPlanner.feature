@@ -1,4 +1,4 @@
-# Acceptance Criterias
+# Acceptance Criteria
 # 1. Navigate to the "Create Flight Plan" option.
 # 2. Verify the user landed on the correct page
 # 3. Verify the Plus Icon clickable
@@ -9,6 +9,7 @@
 # 6. Verify the multiple points added
 # 7. Name the flight plan and confirm.
 # 8. Add another flight plan and verify multiple flight plans added
+# 9. Switching between flight plans & Reloading the page
 # by QA MSEN
 
 Feature: Verify the map viewer loads correctly.
@@ -67,3 +68,19 @@ Feature: Verify the map viewer loads correctly.
     Then the user verifies that the Flight Description is displayed
     And the user clicks on the created second Flight Plan
     Then  the user verifies that there are multiple Created Flight Plan displayed
+
+  Scenario: TC_05 User Switches between flight plans & Reload the page
+    And the user clicks on the Plus Icon to set the initial point
+    And the user clicks multiple points on the map
+    And the user inputs a Flight Description
+    Then the user verifies that the Flight Description is displayed
+    And the user clicks on the created Flight Plan
+    And the user clicks on the Plus Icon to set the initial point
+    And the user adds another flight Plan
+    And the user inputs second Flight Description
+    Then the user verifies that the Flight Description is displayed
+    And the user clicks on the created second Flight Plan
+    Then  the user verifies that there are multiple Created Flight Plan displayed
+    And the user switches between flight plans
+    And the user reloads the page
+    Then the user verifies that there are multiple Created Flight Plan displayed

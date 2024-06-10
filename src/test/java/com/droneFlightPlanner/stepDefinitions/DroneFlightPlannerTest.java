@@ -308,5 +308,16 @@ public class DroneFlightPlannerTest extends CommonPage {
             System.out.println("No flight plans are displayed.");
         }
     }
+
+    @And("the user switches between flight plans")
+    public void theUserSwitchesBetweenFlightPlans() {
+        mainPage().secondCreatedFlightPlan.get(1).click();
+        mainPage().createdFlightPlan.get(0).click();
+    }
+
+    @And("the user reloads the page")
+    public void theUserReloadsThePage() {
+        driver.navigate().refresh();
+    }
 }
 
