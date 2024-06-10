@@ -8,6 +8,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static com.droneFlightPlanner.stepDefinitions.Hooks.actions;
+import static com.droneFlightPlanner.stepDefinitions.Hooks.driver;
+
 public class BrowserUtils {
 
     public static void waitForVisibility(WebElement element) {
@@ -79,5 +82,10 @@ public class BrowserUtils {
         public int getY() {
             return y;
         }
+    }
+
+    public static void moveToElement(int endX, int endY) {
+        WebElement map = driver.findElement(By.tagName("dfp-editor"));
+        actions.moveToElement(map, endX, endY).click().build().perform();
     }
 }

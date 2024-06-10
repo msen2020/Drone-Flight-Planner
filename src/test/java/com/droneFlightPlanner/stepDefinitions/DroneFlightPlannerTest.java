@@ -161,24 +161,13 @@ public class DroneFlightPlannerTest extends CommonPage {
         int endY = mapHeight / 3;
         System.out.println("Sample Coordinates: " + endX + ", " + endY);
 
-        // Creating click gestures
-//        actions.moveToElement(map, endX, endY).click().build().perform();
-//        actions     .moveToElement(map, endX, endY - 100).click().build().perform();
-//        actions     .moveToElement(map, endX - 100, endY - 100).click().build().perform();
-//        actions     .moveToElement(map, endX - 100, endY).click().build().perform();
-//        actions     .moveToElement(map, endX - 10, endY).click()
-//                .build().perform();
-        moveToElement(endX,endY);
-        moveToElement(endX,endY-100);
-        moveToElement(endX-100,endY-100);
-        moveToElement(endX-100,endY);
-        moveToElement(endX-10,endY);
+        BrowserUtils.moveToElement(endX, endY);
+        BrowserUtils.moveToElement(endX, endY - 100);
+        BrowserUtils.moveToElement(endX - 100, endY - 100);
+        BrowserUtils.moveToElement(endX - 100, endY);
+        BrowserUtils.moveToElement(endX - 10, endY);
     }
-private void moveToElement(int endX ,int endY){
-    WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
-    actions.moveToElement(map, endX, endY).click().build().perform();
-}
     @And("the user clicks to another point on the map")
     public void theUserClicksToAnotherPointOnTheMap() {
         BrowserUtils.waitForPageToLoad(15);
@@ -195,7 +184,7 @@ private void moveToElement(int endX ,int endY){
         // Creating click gestures
         actions.moveToElement(map, endX, endY).click()
                 .moveToElement(map, endX, endY - 100).click()
-                .perform();
+                .build().perform();
     }
 
     @Then("the user verifies that the text Your data are saved along the way, no need to worry... is visible")
@@ -239,7 +228,7 @@ private void moveToElement(int endX ,int endY){
                 .moveToElement(map, endX - 150, endY - 150).click()
                 .moveToElement(map, endX - 150, endY).click()
                 .moveToElement(map, endX - 10, endY).click()
-                .perform();
+                .build().perform();
     }
 
     @And("the user clicks on the created second Flight Plan")
@@ -258,8 +247,6 @@ private void moveToElement(int endX ,int endY){
 
     @Then("the user verifies that there are multiple Created Flight Plan displayed")
     public void theUserVerifiesThatThereAreMultipleCreatedFlightPlanDisplayed() {
-        // Locate all flight plan elements
-
         BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(0));
         BrowserUtils.verifyElementDisplayed(mainPage().secondCreatedFlightPlan.get(1));
 
@@ -288,7 +275,6 @@ private void moveToElement(int endX ,int endY){
     public void name() {
         String str = "{_add={}, _divideBy={}, _floor={}, _multiplyBy={}, _round={}, _subtract={}, add={}, clone={}, contains={}, distanceTo={}, divideBy={}, equals={}, floor={}, multiplyBy={}, round={}, subtract={}, toString={}, x=1056, y=690}";
 
-        // way 1
         BrowserUtils.FindCoordinate findCoordinate = new BrowserUtils.FindCoordinate(str);
         System.out.println("findCoordinate.getX() = " + findCoordinate.getX());
         System.out.println("findCoordinate.getY() = " + findCoordinate.getY());
@@ -327,10 +313,10 @@ private void moveToElement(int endX ,int endY){
         int x3 = coordinate3.get("x");
         int y3 = coordinate3.get("y");
         System.out.println("coordinate3: " + x3 + ", " + y3);
-        Assert.assertEquals(x0,x1);
-        Assert.assertEquals(y0,y1+100);
-        Assert.assertEquals(x1,x2+100);
-        Assert.assertEquals(y2,y3-100);
+        Assert.assertEquals(x0, x1);
+        Assert.assertEquals(y0, y1 + 100);
+        Assert.assertEquals(x1, x2 + 100);
+        Assert.assertEquals(y2, y3 - 100);
     }
 }
 

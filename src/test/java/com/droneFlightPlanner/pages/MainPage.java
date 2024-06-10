@@ -5,7 +5,6 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-import static com.droneFlightPlanner.stepDefinitions.Hooks.driver;
 
 public class MainPage extends CommonPage {
 
