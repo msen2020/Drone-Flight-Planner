@@ -45,14 +45,14 @@ public class BrowserUtils {
         }
     }
 
-        public static void verifyElementEnabled(WebElement element){
-            try {
-                Assert.assertTrue("Element is not enabled: " + element, element.isEnabled());
-            } catch (NoSuchElementException e) {
-                e.printStackTrace();
-                Assert.fail("Element is not found: " + element);
-            }
+    public static void verifyElementEnabled(WebElement element) {
+        try {
+            Assert.assertTrue("Element is not enabled: " + element, element.isEnabled());
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            Assert.fail("Element is not found: " + element);
         }
+    }
 
     public static void verifyElementClickable(WebElement element) {
         try {
@@ -63,12 +63,30 @@ public class BrowserUtils {
         }
     }
 
-        public static void wait(int secs){
-            try {
-                Thread.sleep(1000L * secs);
-            } catch (TimeoutException | NoSuchElementException | StaleElementReferenceException |
-                     InterruptedException e) {
-                e.printStackTrace();
-            }
+    public static void wait(int secs) {
+        try {
+            Thread.sleep(1000L * secs);
+        } catch (TimeoutException | NoSuchElementException | StaleElementReferenceException |
+                 InterruptedException e) {
+            e.printStackTrace();
         }
     }
+
+    public static class FindCoordinate {
+        private final int x;
+        private final int y;
+
+        public FindCoordinate(String str) {
+            x = Integer.parseInt(str.split(" x=")[1].split(",")[0]);
+            y = Integer.parseInt(str.split(" y=")[1].split("}")[0]);
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    }
+}

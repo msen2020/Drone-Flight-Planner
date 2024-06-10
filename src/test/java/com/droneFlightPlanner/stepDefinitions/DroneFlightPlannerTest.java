@@ -70,6 +70,7 @@ public class DroneFlightPlannerTest extends CommonPage {
     @And("the user clicks on the Plus Icon to set the initial point")
     public void theUserClicksOnThePlusIconToSetTheInitialPoint() {
         BrowserUtils.waitForPageToLoad(15);
+        BrowserUtils.wait(3);
         mainPage().plusIcon.click();
     }
 
@@ -104,7 +105,7 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @Then("the user verifies that the Flight Plan Coordinates appears under the Flight Plans title")
     public void theUserVerifiesThatTheFlightPlanCoordinatesAppearsUnderTheFlightPlansTitle() {
-        BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan);
+        BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlanCoordinates);
     }
 
     @Then("the user verifies that created first flight point number appears on the flight plan")
@@ -126,18 +127,23 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @And("the user inputs a Flight Description")
     public void theUserInputsAFlightDescription() {
+        int randomNum = random.nextInt(100);
+        char randomLetter = (char) (random.nextInt(26) + 'A');
+        BrowserUtils.waitForClickability(mainPage().flightDescriptionBox);
         mainPage().flightDescriptionBox.click();
-        mainPage().flightDescriptionBox.sendKeys("My Flight Plan " + randomNum);
+        mainPage().flightDescriptionBox.sendKeys("My Flight Plan " + randomNum + " " + randomLetter);
     }
 
     @Then("the user verifies that the Flight Description is displayed")
     public void theUserVerifiesThatTheFlightDescriptionIsDisplayed() {
+        BrowserUtils.waitForVisibility(mainPage().flightDescriptionText);
         BrowserUtils.verifyElementDisplayed(mainPage().flightDescriptionText);
     }
 
     @And("the user clicks on the created Flight Plan")
     public void theUserClicksOnTheCreatedFlightPlan() {
-        mainPage().createdFlightPlan.click();
+        BrowserUtils.waitForClickability(mainPage().createdFlightPlanCoordinates);
+        mainPage().createdFlightPlanCoordinates.click();
     }
 
     @And("the user clicks multiple points on the map")
@@ -178,7 +184,7 @@ public class DroneFlightPlannerTest extends CommonPage {
         String str = "{_add={}, _divideBy={}, _floor={}, _multiplyBy={}, _round={}, _subtract={}, add={}, clone={}, contains={}, distanceTo={}, divideBy={}, equals={}, floor={}, multiplyBy={}, round={}, subtract={}, toString={}, x=1056, y=690}";
 
         // way 1
-        FindCoordinate findCoordinate = new FindCoordinate(str);
+        BrowserUtils.FindCoordinate findCoordinate = new BrowserUtils.FindCoordinate(str);
         System.out.println("findCoordinate.getX() = " + findCoordinate.getX());
         System.out.println("findCoordinate.getY() = " + findCoordinate.getY());
 
@@ -241,22 +247,65 @@ public class DroneFlightPlannerTest extends CommonPage {
         Assert.assertTrue("Expected number '2' is not displayed in the flight point element.", flightPointText.contains(expectedNumber));
     }
 
+    @And("the user adds another flight Plan")
+    public void theUserAddsAnotherFlightPlan() {
+        BrowserUtils.waitForPageToLoad(15);
+        WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
-    static class FindCoordinate {
-        private final int x;
-        private final int y;
+        // Get map dimensions
+        int mapWidth = map.getSize().getWidth();
+        int mapHeight = map.getSize().getHeight();
 
-        public FindCoordinate(String str) {
-            x = Integer.parseInt(str.split(" x=")[1].split(",")[0]);
-            y = Integer.parseInt(str.split(" y=")[1].split("}")[0]);
-        }
+        // Set sample coordinates to click map dimensions
+        int endX = mapWidth / 6;
+        int endY = mapHeight / 3;
 
-        public int getX() {
-            return x;
-        }
+        // Creating click gestures
+        actions.moveToElement(map, endX, endY).click()
+                .release().perform();
 
-        public int getY() {
-            return y;
+        actions.moveToElement(map, 120, endY - 150).click()
+                .release().perform();
+
+        actions.moveToElement(map, endX - 150, endY - 150).click()
+                .release().perform();
+
+        actions.moveToElement(map, endX - 150, endY).click()
+                .release().perform();
+
+        actions.moveToElement(map, endX - 10, endY).click()
+                .release().perform();
+    }
+
+    @And("the user clicks on the created second Flight Plan")
+    public void theUserClicksOnTheCreatedSecondFlightPlan() {
+        mainPage().createdSecondFlightPlan.click();
+    }
+
+    @And("the user inputs second Flight Description")
+    public void theUserInputsSecondFlightDescription() {
+        int randomNum = random.nextInt(100);
+        char randomLetter = (char) (random.nextInt(26) + 'A');
+        BrowserUtils.waitForClickability(mainPage().flightDescriptionBox);
+        mainPage().flightDescriptionBox.click();
+        mainPage().flightDescriptionBox.sendKeys("My Flight Plan " + randomNum + " " + randomLetter);
+    }
+
+    @Then("the user verifies that there are multiple Created Flight Plan displayed")
+    public void theUserVerifiesThatThereAreMultipleCreatedFlightPlanDisplayed() {
+        // Locate all flight plan elements
+        List<WebElement> flightPlans = driver.findElements(By.cssSelector("md-list-item.dfp-item"));
+
+        BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(0));
+        BrowserUtils.verifyElementDisplayed(mainPage().createdFlightPlan.get(1));
+
+        // Verify that there are multiple flight plans
+        if (flightPlans.size() > 1) {
+            System.out.println("Multiple flight plans are displayed.");
+        } else if (flightPlans.size() == 1) {
+            System.out.println("Only one flight plan is displayed.");
+        } else {
+            System.out.println("No flight plans are displayed.");
         }
     }
 }

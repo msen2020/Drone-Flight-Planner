@@ -39,7 +39,7 @@ Feature: Verify the map viewer loads correctly.
     Then the user verifies that the Flight Plan Coordinates appears under the Flight Plans title
     Then the user verifies that created first flight point number appears on the flight plan
 
-  Scenario: TC_03 User
+  Scenario: TC_03 User verifies that the text Your data are saved along the way, no need to worry...
     And the user clicks on the Plus Icon to set the initial point
     And the user clicks to another point on the map
     Then the user verifies that the text Your data are saved along the way, no need to worry... is visible
@@ -51,10 +51,19 @@ Feature: Verify the map viewer loads correctly.
     And the user inputs a Flight Description
     Then the user verifies that the Flight Description is displayed
     And the user clicks on the created Flight Plan
+    And the user inputs a Flight Description
+    Then the user verifies that the Flight Description is displayed
+    And the user clicks on the created Flight Plan
 
-    Scenario: TC_04 User adds multiple Flight Plans
-      And the user clicks on the Plus Icon to set the initial point
-      And the user creates another flight Plan
-      And the user inputs a Flight Description
-      Then the user verifies that the Flight Description is displayed
-      And the user clicks on the created Flight Plan
+  Scenario: TC_04 User adds multiple Flight Plans
+    And the user clicks on the Plus Icon to set the initial point
+    And the user clicks multiple points on the map
+    And the user inputs a Flight Description
+    Then the user verifies that the Flight Description is displayed
+    And the user clicks on the created Flight Plan
+    And the user clicks on the Plus Icon to set the initial point
+    And the user adds another flight Plan
+    And the user inputs second Flight Description
+    Then the user verifies that the Flight Description is displayed
+    And the user clicks on the created second Flight Plan
+    Then  the user verifies that there are multiple Created Flight Plan displayed

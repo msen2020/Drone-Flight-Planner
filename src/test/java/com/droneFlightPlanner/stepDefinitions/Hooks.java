@@ -16,8 +16,6 @@ public class Hooks {
     public static WebDriver driver; // Declare WebDriver instance in Hooks class
     public static Actions actions;
     public static Random random = new Random();
-    public static int randomNum = random.nextInt(100);
-
 
     @Before(order = 1)
     public void setUp() {
