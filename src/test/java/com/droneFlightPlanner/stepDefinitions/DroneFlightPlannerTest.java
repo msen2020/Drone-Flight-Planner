@@ -71,7 +71,6 @@ public class DroneFlightPlannerTest extends CommonPage {
     public void theUserClicksOnThePlusIconToSetTheInitialPoint() {
         BrowserUtils.wait(3);
         BrowserUtils.waitForPageToLoad(15);
-        BrowserUtils.wait(3);
         mainPage().plusIcon.click();
     }
 
@@ -139,6 +138,7 @@ public class DroneFlightPlannerTest extends CommonPage {
     public void theUserVerifiesThatTheFlightDescriptionIsDisplayed() {
         BrowserUtils.waitForVisibility(mainPage().flightDescriptionText);
         BrowserUtils.verifyElementDisplayed(mainPage().flightDescriptionText);
+        BrowserUtils.wait(3);
     }
 
     @And("the user clicks on the created Flight Plan")
@@ -149,7 +149,7 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @And("the user clicks multiple points on the map")
     public void theUserClicksMultiplePointsOnTheMap() {
-        BrowserUtils.waitForPageToLoad(15);
+        BrowserUtils.wait(3);
         WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
         // Get map dimensions
@@ -162,28 +162,31 @@ public class DroneFlightPlannerTest extends CommonPage {
         System.out.println("Sample Coordinates: " + endX + ", " + endY);
 
         BrowserUtils.moveToElement(endX, endY);
+        BrowserUtils.wait(1);
         BrowserUtils.moveToElement(endX, endY - 100);
+        BrowserUtils.wait(1);
         BrowserUtils.moveToElement(endX - 100, endY - 100);
+        BrowserUtils.wait(1);
         BrowserUtils.moveToElement(endX - 100, endY);
+        BrowserUtils.wait(1);
         BrowserUtils.moveToElement(endX - 10, endY);
     }
 
     @And("the user clicks to another point on the map")
     public void theUserClicksToAnotherPointOnTheMap() {
         BrowserUtils.waitForPageToLoad(15);
-        WebElement map = driver.findElement(By.tagName("dfp-editor"));
 
         // Get map dimensions
-        int mapWidth = map.getSize().getWidth();
-        int mapHeight = map.getSize().getHeight();
+        int mapWidth = mainPage().map.getSize().getWidth();
+        int mapHeight = mainPage().map.getSize().getHeight();
 
         // Set sample coordinates to click map dimensions
         int endX = mapWidth / 6;
         int endY = mapHeight / 3;
 
         // Creating click gestures
-        actions.moveToElement(map, endX, endY).click()
-                .moveToElement(map, endX, endY - 100).click()
+        actions.moveToElement(mainPage().map, endX, endY).click()
+                .moveToElement(mainPage().map, endX, endY - 100).click()
                 .build().perform();
     }
 
@@ -223,12 +226,15 @@ public class DroneFlightPlannerTest extends CommonPage {
         int endY = mapHeight / 3;
 
         // Creating click gestures
-        actions.moveToElement(map, endX, endY).click()
-                .moveToElement(map, 120, endY - 150).click()
-                .moveToElement(map, endX - 150, endY - 150).click()
-                .moveToElement(map, endX - 150, endY).click()
-                .moveToElement(map, endX - 10, endY).click()
-                .build().perform();
+        BrowserUtils.moveToElement(endX, endY);
+        BrowserUtils.wait(1);
+        BrowserUtils.moveToElement(120, endY - 150);
+        BrowserUtils.wait(1);
+        BrowserUtils.moveToElement(endX - 150, endY - 150);
+        BrowserUtils.wait(1);
+        BrowserUtils.moveToElement(endX - 150, endY);
+        BrowserUtils.wait(1);
+        BrowserUtils.moveToElement(endX - 10, endY);
     }
 
     @And("the user clicks on the created second Flight Plan")
@@ -290,8 +296,8 @@ public class DroneFlightPlannerTest extends CommonPage {
         return map;
     }
 
-    @Then("the user verifies that the given coordinates are displayed on the map")
-    public void theUserVerifiesThatTheGivenCoordinatesAreDisplayedOnTheMap() {
+    @Then("the user verifies that the coordinates match the points on the map")
+    public void theUserVerifiesThatTheCoordinatesMatchThePointsOnTheMap() {
 //        String leafletPos = mainPage().points.get(0).getDomProperty("_leaflet_pos");
         Map<String, Integer> coordinate0 = getCoordinate(mainPage().points.get(0));
         int x0 = coordinate0.get("x");
