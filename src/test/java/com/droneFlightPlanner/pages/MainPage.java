@@ -47,6 +47,9 @@ public class MainPage extends CommonPage {
     @FindBy(css = "md-list-item.dfp-item")
     public List<WebElement> flightPlans;
 
+    @FindBy(tagName = "dfp-editor")
+    public WebElement map;
+
     @FindBy(css = ".leaflet-marker-icon")
     public List<WebElement> points;
 
