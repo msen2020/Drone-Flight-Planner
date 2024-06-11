@@ -37,6 +37,7 @@ Feature: Verify the map viewer loads correctly.
     Then the user verifies that the text Choose a point near your take off position to start creating your flight plan. is visible
     And the user clicks a point on the map
     Then the user verifies that the text Good! your Flight Plan has been created. You can now add more checkpoints. is visible
+    And the user clicks on the created Flight Plan
     Then the user verifies that the Flight Plan Coordinates appears under the Flight Plans title
     Then the user verifies that created first flight point number appears on the flight plan
 

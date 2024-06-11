@@ -21,9 +21,6 @@ public class Hooks {
     public void setUp() {
         // This will run before each test method
         driver = Driver.getDriver(); // Assign the WebDriver instance returned by Driver.get() to the driver variable
-
-        // Maximize the browser window
-        driver.manage().window().maximize();
         actions = new Actions(driver);
     }
 

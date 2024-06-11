@@ -71,11 +71,13 @@ public class DroneFlightPlannerTest extends CommonPage {
     public void theUserClicksOnThePlusIconToSetTheInitialPoint() {
         BrowserUtils.wait(3);
         BrowserUtils.waitForPageToLoad(15);
+        BrowserUtils.waitForClickability(mainPage().plusIcon);
         mainPage().plusIcon.click();
     }
 
     @Then("the user verifies that the text Choose a point near your take off position to start creating your flight plan. is visible")
     public void theUserVerifiesThatTheTextChooseAPointNearYourTakeOffPositionToStartCreatingYourFlightPlanIsVisible() {
+        BrowserUtils.waitForPageToLoad(15);
         BrowserUtils.verifyElementDisplayed(mainPage().chooseAPointText);
     }
 
@@ -93,8 +95,8 @@ public class DroneFlightPlannerTest extends CommonPage {
         int endY = mapHeight / 3;
 
         // Creating click gestures
-        actions.moveToElement(map, endX, endY).click()
-                .release().perform();
+        BrowserUtils.wait(1);
+        BrowserUtils.moveToElement(endX, endY);
     }
 
     @Then("the user verifies that the text Good! your Flight Plan has been created. You can now add more checkpoints. is visible")
@@ -192,6 +194,7 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @Then("the user verifies that the text Your data are saved along the way, no need to worry... is visible")
     public void theUserVerifiesThatTheTextYourDataAreSavedAlongTheWayNoNeedToWorryIsVisible() {
+        BrowserUtils.wait(2);
         BrowserUtils.waitForVisibility(mainPage().yourDataSavedText);
         BrowserUtils.verifyElementDisplayed(mainPage().yourDataSavedText);
     }
@@ -244,6 +247,7 @@ public class DroneFlightPlannerTest extends CommonPage {
 
     @And("the user inputs second Flight Description")
     public void theUserInputsSecondFlightDescription() {
+        BrowserUtils.wait(2);
         int randomNum = random.nextInt(100);
         char randomLetter = (char) (random.nextInt(26) + 'A');
         BrowserUtils.waitForClickability(mainPage().flightDescriptionBox);
